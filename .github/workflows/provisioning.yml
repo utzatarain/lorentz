@@ -10,7 +10,7 @@ jobs:
   provisioning:
     name: Terraform Provisioning
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'staging' && github.ref_name || 'development' }}
+    environment: ${{ github.ref_name == 'main' && 'production' || contains(toJson('["staging", "development"]'), github.ref_name) && github.ref_name || null }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
